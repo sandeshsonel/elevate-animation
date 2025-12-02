@@ -33,6 +33,7 @@ export const starVariants: Variants = {
   hidden: {
     opacity: 1,
     scale: 0.25,
+    top: 10,
     rotate: -90,
     x: -100,
     y: -60
