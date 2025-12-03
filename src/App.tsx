@@ -42,17 +42,14 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
          Q 188 130 140 120 
          Q 188 110 200 60 Z"
           fill="white"
+          initial="initial"
+          animate="animate"
           variants={starVariants}
-          initial="hidden"
-          animate="visible"
         />
 
         {/* Bowl shape at bottom */}
 
         <defs>
-          {/* MASK 1: Vertical Reveal (For the Outline) 
-              This is your existing code.
-          */}
           <clipPath id="bowl-mask">
             <motion.rect
               x="0"
@@ -60,19 +57,13 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
               initial={{ y: 400, height: 0 }}
               animate={{ y: 190, height: 210 }}
               transition={{
-                duration: 1.5,
-                ease: [0.22, 1, 0.36, 1],
+                duration: 0.4,
+                ease: 'easeInOut',
                 delay: 0.2
               }}
             />
           </clipPath>
 
-          {/* MASK 2: Angled Fill Reveal (For the Solid White) 
-              - We rotate this mask 55 degrees.
-              - We start it far to the left (x: -500) and move it right.
-              - The delay is set to 1.7s (1.5s + 0.2s) so it starts 
-                exactly when the outline finishes.
-          */}
           <clipPath id="fill-mask">
             <motion.rect
               x="-150"
@@ -87,45 +78,48 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
                 delay: 0.3
               }}
               style={{
-                originX: 200 / 600, // ~0.33
-                originY: 300 / 600 // ~0.5
+                originX: 200 / 600,
+                originY: 300 / 600
               }}
             />
           </clipPath>
         </defs>
 
-        {/* LAYER 1: The Outline (Bottom -> Top) 
-            This uses your original logic.
-        */}
-        <motion.g style={{ transform: 'translate(80px, 74px) scale(0.6)' }}>
-          <motion.path
-            d="M 0 200 Q 180 210 200 400 Q 210 220 400 200 Z"
-            stroke="#ffffff"
-            strokeWidth="2"
-            fill="none"
-            clipPath="url(#bowl-mask)"
-            initial={{ opacity: 0.5 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-          />
-        </motion.g>
+        {/* NEW: Parent wrapper that moves upward at the end */}
+        <motion.g
+          initial={{ y: 0 }}
+          animate={{ y: -34 }} // adjust number as needed
+          transition={{
+            delay: 1.6, // starts after all previous animations finish
+            duration: 1.8,
+            ease: 'linear'
+          }}>
+          {/* LAYER 1: Outline */}
+          <motion.g style={{ transform: 'translate(80px, 74px) scale(0.6)' }}>
+            <motion.path
+              d="M 0 200 Q 180 210 200 400 Q 210 220 400 200 Z"
+              stroke="#ffffff"
+              strokeWidth="2"
+              fill="none"
+              clipPath="url(#bowl-mask)"
+              initial={{ pathLength: 1.2 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 10 }}
+            />
+          </motion.g>
 
-        {/* LAYER 2: The Solid Fill (Left -> Right, 55deg) 
-            - Same Path 'd'
-            - Solid Fill, No Stroke
-            - Uses the new 'fill-mask'
-        */}
-        <motion.g style={{ transform: 'translate(80px, 74px) scale(0.6)' }}>
-          <motion.path
-            d="M 0 200 Q 180 210 200 400 Q 210 220 400 200 Z"
-            fill="#ffffff"
-            stroke="none"
-            clipPath="url(#fill-mask)"
-            // Optional: Add a slight opacity fade alongside the wipe for smoothness
-            initial={{ opacity: 0.8 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.7, duration: 1 }}
-          />
+          {/* LAYER 2: Fill */}
+          <motion.g style={{ transform: 'translate(80px, 74px) scale(0.6)' }}>
+            <motion.path
+              d="M 0 200 Q 180 210 200 400 Q 210 220 400 200 Z"
+              fill="#ffffff"
+              stroke="none"
+              clipPath="url(#fill-mask)"
+              initial={{ opacity: 0.8 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.7, duration: 1, ease: 'easeInOut' }}
+            />
+          </motion.g>
         </motion.g>
       </svg>
     </motion.div>

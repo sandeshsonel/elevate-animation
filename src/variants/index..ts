@@ -30,29 +30,25 @@ export const textContainerVariants: Variants = {
 }
 
 export const starVariants: Variants = {
-  hidden: {
-    opacity: 1,
-    scale: 0.25,
-    top: 10,
-    rotate: -90,
+  initial: {
+    opacity: 0,
+    scale: 0.1,
+    top: -100,
+    rotate: 0,
     x: -100,
     y: -60
   },
-
-  visible: {
-    opacity: 1,
-    scale: 1,
-    rotate: 0,
-    x: 0,
-
-    // ⭐ Keep your original y:0, then add a new top movement
-    y: [0, 0, -60], // 1) your final position, 2) hold, 3) move up
-
+  animate: {
+    x: [-100, 0, 0],
+    y: [-60, 0, -40],
+    rotate: [0, 360, 360],
+    opacity: [0, 1, 1],
+    scale: [0.1, 1, 1],
     transition: {
-      duration: 2, // your 3s animation + a little for the top move
-      ease: [0.22, 1, 0.36, 1],
-      times: [0, 0.78, 1], // first 78% = your animation, last 22% = move up
-      delay: 0
+      duration: 2.8,
+      delay: 0.6,
+      ease: 'linear',
+      times: [0, 0.4, 1] // first part 1.4s, second part 3s
     }
   }
 }
