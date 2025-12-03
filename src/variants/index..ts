@@ -1,20 +1,35 @@
-import type { Variants } from 'framer-motion'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { MotionProps, Variants } from 'framer-motion'
+
+interface Anim extends MotionProps {
+  initial: Record<string, any>
+  animate: Record<string, any>
+  transition: Record<string, any>
+}
 
 export const starGlowVariants: Variants = {
   initial: {
     fillOpacity: 0,
     opacity: 0,
     scale: 0,
-    y: 0 // starting point
+    y: 0
   },
   animate: {
-    fillOpacity: 1,
-    y: -40, // only go upward
-    scale: [0.4, 0.6, 1],
-    opacity: [0.2],
+    opacity: [0.3],
+    fillOpacity: [0, 1, 1, 0],
+
+    scale: [0.8, 1],
+    y: -64,
+
     transition: {
-      duration: 2,
-      delay: 1.4
+      delay: 1.4, // when the whole glow animation starts
+      duration: 4, // total time for all 4 keyframes
+      times: [0, 0.3, 0.3, 1]
+      // ex.
+      // 0   -> opacity 0
+      // 0.2 -> fully visible
+      // 0.7 -> still fully visible
+      // 1   -> faded out
     }
   }
 }
@@ -36,22 +51,54 @@ export const starVariants: Variants = {
   initial: {
     opacity: 0,
     scale: 0.1,
-    top: -100,
     rotate: 0,
-    x: -100,
-    y: -60
+    x: -100
   },
   animate: {
     x: [-100, 0, 0],
     y: [-60, 0, -40],
     rotate: [0, 360, 360],
-    opacity: [0, 1, 1],
-    scale: [0.1, 1, 1],
+    opacity: [0, 1, 1, 0],
+    scale: [0.4, 0.5, 0.9, 1, 1.1],
     transition: {
       duration: 2.8,
       delay: 0.6,
       ease: 'linear',
-      times: [0, 0.4, 1] // first part 1.4s, second part 3s
+      times: [0, 0.4, 1],
+      opacity: {
+        duration: 4, // fade time
+        delay: 1 // delay AFTER main animation finishes
+      }
     }
   }
+}
+
+export const bowlMaskAnim: Anim = {
+  initial: { y: 400, height: 0 },
+  animate: { y: 190, height: 210 },
+  transition: { duration: 0.4, ease: 'easeInOut', delay: 0.2 }
+}
+
+export const fillMaskAnim: Anim = {
+  initial: { x: -500, rotate: 60 },
+  animate: { x: 0, rotate: 30 },
+  transition: { duration: 2.4, ease: 'easeInOut', delay: 0.3 }
+}
+
+export const wrapperAnim: Anim = {
+  initial: { y: 0 },
+  animate: { y: -60 },
+  transition: { delay: 1.6, duration: 1.8, ease: 'linear' }
+}
+
+export const outlineAnim: Anim = {
+  initial: { pathLength: 1.2 },
+  animate: { opacity: 1 },
+  transition: { duration: 10 }
+}
+
+export const fillAnim: Anim = {
+  initial: { opacity: 0.8 },
+  animate: { opacity: 1 },
+  transition: { delay: 1, duration: 1, ease: 'easeInOut' }
 }
