@@ -12,14 +12,14 @@ export const starGlowVariants: Variants = {
     fillOpacity: 0,
     opacity: 0,
     scale: 0,
-    y: 0
+    y: -4
   },
   animate: {
     opacity: [0.3],
     fillOpacity: [0, 1, 1, 0],
 
     scale: [0.8, 1],
-    y: -50,
+    y: -10,
 
     transition: {
       ease: 'linear',
@@ -44,27 +44,27 @@ export const textContainerVariants: Variants = {
 
 export const starVariants: Variants = {
   initial: {
-    opacity: 0,
-    scale: 0.1,
+    opacity: 1,
+    scale: 0.2,
     rotate: 0,
     x: -100,
-    y: 0
+    y: -20
   },
   animate: {
     x: [-100, -70, 0, 0],
-    y: [-40, -35, 0, -30],
+    y: [-18, -10, 16, -20],
     rotate: [0, 40, 180, 180],
-    opacity: [0, 1, 1, 0],
-    scale: [0.1, 0.3, 0.8, 1],
+    opacity: [1, 1, 1, 0],
+    scale: [0.1, 0.2, 0.8, 0.8],
 
     transition: {
       duration: 2.8,
-      delay: 0.6,
+      delay: 0,
       ease: 'linear',
-      times: [0.1, 0.2, 0.4, 0.8],
+      times: [0.1, 0.1, 0.4, 0.8],
       opacity: {
         duration: 4, // fade time
-        delay: 1 // delay AFTER main animation finishes
+        delay: 0.3 // delay AFTER main animation finishes
       }
     }
   }
