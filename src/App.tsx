@@ -217,9 +217,7 @@ export default function App() {
             </button>
           </div>
         </div>
-        <div
-          className="relative border border-neutral-900 bg-black rounded-xl p-8 shadow-2xl cursor-pointer"
-          onClick={handlePlayPause}>
+        <div className="relative border border-neutral-900 bg-black rounded-xl p-8 shadow-2xl cursor-pointer">
           {/* Video Element */}
           <video
             ref={videoRef}
