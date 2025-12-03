@@ -1,17 +1,20 @@
 import type { Variants } from 'framer-motion'
 
 export const starGlowVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.8, y: 0 },
-  visible: {
-    opacity: [0, 0.3, 0.15] as const,
-    scale: [0.8, 1.4, 1.1] as const,
-    y: [0, 0, -10], // ➜ last animation moves up 10px
+  initial: {
+    fillOpacity: 0,
+    opacity: 0,
+    scale: 0,
+    y: 0 // starting point
+  },
+  animate: {
+    fillOpacity: 1,
+    y: -40, // only go upward
+    scale: [0.4, 0.6, 1],
+    opacity: [0.2],
     transition: {
-      duration: 3,
-      times: [0, 0.5, 1] as const,
-      delay: 1.0,
-      repeat: Infinity,
-      repeatType: 'reverse'
+      duration: 2,
+      delay: 1.4
     }
   }
 }

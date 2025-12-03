@@ -31,6 +31,8 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
           cy="120"
           r="70"
           fill="url(#star-glow)"
+          initial="initial"
+          animate="animate"
           variants={starGlowVariants}
         />
 
