@@ -191,7 +191,8 @@ export default function App() {
           <ElevateLogo replayKey={replayKey} />
 
           {/* Replay Controls */}
-          <div className="absolute top-4 right-4 group z-10">
+          <div className="absolute top-3 left-0 px-4 group z-10 flex justify-between items-center w-full">
+            <span className="text-white text-sm">Animation</span>
             <button
               onClick={handleReplay}
               className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
@@ -213,22 +214,25 @@ export default function App() {
             muted
             playsInline
           />
-          <div className="absolute top-4 right-4 group z-10 flex items-center space-x-2">
-            <button
-              onClick={handlePlayPause}
-              className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
-              title={isPlaying ? 'Pause Animation' : 'Play Animation'}>
-              {isPlaying ? <Pause size={18} /> : <Play size={18} />}
-            </button>
-            <button
-              onClick={() => {
-                handleRestart()
-                handleReplay()
-              }}
-              className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
-              title="Replay Animation">
-              <RefreshCcw size={18} />
-            </button>
+          <div className="absolute top-3 left-0 px-4 group z-10 flex justify-between items-center w-full">
+            <span className="text-white text-sm">Video Animation</span>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={handlePlayPause}
+                className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
+                title={isPlaying ? 'Pause Animation' : 'Play Animation'}>
+                {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+              </button>
+              <button
+                onClick={() => {
+                  handleRestart()
+                  handleReplay()
+                }}
+                className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
+                title="Replay Animation">
+                <RefreshCcw size={18} />
+              </button>
+            </div>
           </div>
         </div>
       </div>
