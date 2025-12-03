@@ -68,16 +68,12 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
                 y="-100"
                 width="600"
                 height="600"
-                initial={{ x: -500, rotate: 60 }}
-                animate={{ x: 0, rotate: 30 }}
+                initial={{ x: -500 }}
+                animate={{ x: 0 }}
                 transition={{
-                  duration: 2.4,
+                  duration: 2,
                   ease: 'easeInOut',
                   delay: 0.3
-                }}
-                style={{
-                  originX: 200 / 600,
-                  originY: 300 / 600
                 }}
               />
             </clipPath>
@@ -86,10 +82,10 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
           {/* NEW: Parent wrapper that moves upward at the end */}
           <motion.g
             initial={{ y: 0 }}
-            animate={{ y: -60 }} // adjust number as needed
+            animate={{ y: -40 }} // adjust number as needed
             transition={{
               delay: 1.6, // starts after all previous animations finish
-              duration: 1.8,
+              duration: 1.2,
               ease: 'linear'
             }}>
             {/* LAYER 1: Outline */}
@@ -132,9 +128,6 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
               ease: 'linear'
             }
           }}>
-          {/* bowl outline */}
-          {/* bowl fill */}
-
           <motion.text
             x="212"
             y="440"
