@@ -10,21 +10,21 @@ interface Anim extends MotionProps {
 export const starGlowVariants: Variants = {
   initial: {
     fillOpacity: 0,
-    opacity: 0,
+    opacity: 1,
     scale: 0,
-    y: 10
+    y: 0
   },
   animate: {
-    opacity: [0.5, 0],
-    fillOpacity: [0, 1, 1, 0],
+    opacity: [0.4, 0],
+    fillOpacity: [0, 1, 1, 1, 0],
 
     scale: [0.8, 1],
-    y: -20,
+    y: -22,
 
     transition: {
       ease: 'linear',
       delay: 1,
-      duration: 2.4
+      duration: 1.4
     }
   }
 }
@@ -34,21 +34,21 @@ export const starVariants: Variants = {
     opacity: 1,
     scale: 0.2,
     rotate: 0,
-    x: -100,
-    y: -20
+    x: -70,
+    y: -15
   },
   animate: {
-    x: [-100, -70, 0, 0],
-    y: [-18, -10, 16, -20],
-    rotate: [0, 40, 180, 180],
+    x: [-70, -55, 0, 0],
+    y: [-20, -19.8, 16, -20],
+    rotate: [0, 60, 180, 180],
     opacity: [1, 1, 1, 0],
-    scale: [0.1, 0.2, 0.8, 0.8],
+    scale: [0.2, 0.3, 0.8, 0.85],
 
     transition: {
       duration: 2.8,
       delay: 0,
       ease: 'linear',
-      times: [0.1, 0.1, 0.4, 0.8],
+      times: [0.1, 0.2, 0.4, 0.8],
       opacity: {
         duration: 4, // fade time
         delay: 0.3 // delay AFTER main animation finishes

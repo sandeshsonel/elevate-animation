@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { bowlMaskAnim, starGlowVariants, starVariants } from './variants/index.'
 import { Pause, Play, RefreshCcw } from 'lucide-react'
@@ -28,7 +28,7 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
         {/* Glow */}
         <motion.circle
           cx="200"
-          cy="138"
+          cy="150"
           r="40"
           fill="url(#star-glow)"
           initial="initial"
@@ -37,7 +37,7 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
         />
 
         {/* Star */}
-        <g transform="translate(200 140) scale(0.8) translate(-200 -128)">
+        <g transform="translate(200 138) scale(0.8) translate(-200 -128)">
           <motion.path
             d="M249.892 129.683C219.813 134.787 206.985 147.373 200.713 179.873C200.671 180.092 200.346 180.091 200.308 179.871C195.032 149.573 183.442 135.373 151.378 129.735C151.151 129.695 151.155 129.352 151.384 129.322C179.797 125.507 192.806 114.33 200.318 81.7959C200.365 81.5927 200.661 81.5896 200.716 81.7907C210.479 117.203 222.927 123.82 249.9 129.279C250.118 129.324 250.112 129.646 249.892 129.683Z"
             fill="white"
@@ -109,7 +109,7 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
               clipPath="url(#fill-mask)"
               initial={{ opacity: 0.8 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0, duration: 1, ease: 'easeInOut' }}
+              transition={{ delay: 0, duration: 1.3, ease: 'easeInOut' }}
             />
           </motion.g>
         </motion.g>
@@ -149,14 +149,18 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
   )
 }
 
+let replayInterval: number
+
 export default function App() {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [replayKey, setReplayKey] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
 
   const handleReplay = () => {
+    clearInterval(replayInterval)
     setReplayKey((prev) => prev + 1)
     handleRestart()
+    handleStartLoop()
   }
 
   const handlePlayPause = () => {
@@ -183,6 +187,18 @@ export default function App() {
       video.play()
     })
   }
+
+  const handleStartLoop = () => {
+    replayInterval = setInterval(() => {
+      setReplayKey((prev) => prev + 1)
+    }, 4500)
+  }
+
+  useEffect(() => {
+    handleStartLoop()
+
+    return () => clearInterval(replayInterval)
+  }, [])
 
   return (
     <div className="min-h-screen w-full bg-black flex flex-col items-center justify-center p-4 overflow-hidden font-sans">
