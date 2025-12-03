@@ -54,7 +54,7 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
           animate={{ opacity: 0 }}
           transition={{
             duration: 1,
-            delay: 3 // wait until previous animations finish
+            delay: 3 // wait until previous animations finish.
           }}
           transform="translate(200 160) scale(0.3) translate(-200 -80)">
           <defs>
@@ -68,12 +68,12 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
                 y="-100"
                 width="600"
                 height="600"
-                initial={{ x: -500 }}
-                animate={{ x: 0 }}
+                initial={{ x: -500, rotate: 0 }}
+                animate={{ x: 0, rotate: -60 }}
                 transition={{
                   duration: 2,
-                  ease: 'easeInOut',
-                  delay: 0
+                  ease: 'easeOut',
+                  delay: 0.2
                 }}
               />
             </clipPath>
@@ -95,12 +95,13 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
               strokeWidth="2"
               fill="none"
               clipPath="url(#bowl-mask)"
-              initial={{ pathLength: 1.2 }}
+              initial={{ pathLength: 1 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 10 }}
             />
 
             {/* LAYER 2: Fill */}
+
             <motion.path
               d="M 0 200 Q 180 210 200 400 Q 210 220 400 200 Z"
               fill="#ffffff"
@@ -186,9 +187,7 @@ export default function App() {
   return (
     <div className="min-h-screen w-full bg-black flex flex-col items-center justify-center p-4 overflow-hidden font-sans">
       <div className="grid md:grid-cols-2 sm::grid-cols-1 gap-4 max-w-4xl mx-auto">
-        <div
-          className="relative border border-neutral-900 bg-black rounded-xl p-8 shadow-2xl cursor-pointer"
-          onClick={handleReplay}>
+        <div className="relative border border-neutral-900 bg-black rounded-xl p-8 shadow-2xl cursor-pointer">
           <ElevateLogo replayKey={replayKey} />
 
           {/* Replay Controls */}

@@ -15,7 +15,7 @@ export const starGlowVariants: Variants = {
     y: -4
   },
   animate: {
-    opacity: [0.3],
+    opacity: [0.3, 0],
     fillOpacity: [0, 1, 1, 0],
 
     scale: [0.8, 1],
@@ -25,19 +25,6 @@ export const starGlowVariants: Variants = {
       ease: 'linear',
       delay: 1.4,
       duration: 2
-    }
-  }
-}
-
-export const textContainerVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      delay: 1.8,
-      ease: 'easeOut' as const
     }
   }
 }
