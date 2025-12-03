@@ -19,17 +19,11 @@ export const starGlowVariants: Variants = {
     fillOpacity: [0, 1, 1, 0],
 
     scale: [0.8, 1],
-    y: -64,
+    y: -54,
 
     transition: {
-      delay: 1.4, // when the whole glow animation starts
-      duration: 4, // total time for all 4 keyframes
-      times: [0, 0.3, 0.3, 1]
-      // ex.
-      // 0   -> opacity 0
-      // 0.2 -> fully visible
-      // 0.7 -> still fully visible
-      // 1   -> faded out
+      delay: 1.4,
+      duration: 3.4
     }
   }
 }
