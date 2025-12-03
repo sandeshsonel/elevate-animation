@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { bowlMaskAnim, starGlowVariants, starVariants } from './variants/index.'
-import { RefreshCcw } from 'lucide-react'
+import { Pause, Play, RefreshCcw } from 'lucide-react'
 
 interface PropTypes {
   replayKey: number
@@ -37,7 +37,7 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
         />
 
         {/* Star */}
-        <g transform="translate(200 120) scale(1.2) translate(-200 -128)">
+        <g transform="translate(200 120) scale(0.8) translate(-200 -128)">
           <motion.path
             d="M249.892 129.683C219.813 134.787 206.985 147.373 200.713 179.873C200.671 180.092 200.346 180.091 200.308 179.871C195.032 149.573 183.442 135.373 151.378 129.735C151.151 129.695 151.155 129.352 151.384 129.322C179.797 125.507 192.806 114.33 200.318 81.7959C200.365 81.5927 200.661 81.5896 200.716 81.7907C210.479 117.203 222.927 123.82 249.9 129.279C250.118 129.324 250.112 129.646 249.892 129.683Z"
             fill="white"
@@ -56,7 +56,7 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
             duration: 1,
             delay: 4 // wait until previous animations finish
           }}
-          transform="translate(200 120) scale(0.6) translate(-200 -80)">
+          transform="translate(200 160) scale(0.3) translate(-200 -80)">
           <defs>
             <clipPath id="bowl-mask">
               <motion.rect x="0" width="400" {...bowlMaskAnim} />
@@ -113,8 +113,8 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
           </motion.g>
         </motion.g>
         <motion.g
-          initial={{ y: -10, opacity: 1 }}
-          animate={{ y: -40, opacity: 0 }}
+          initial={{ y: 0, opacity: 1 }}
+          animate={{ y: 0, opacity: 0 }}
           className="text-center mx-auto"
           transition={{
             y: {
@@ -130,15 +130,16 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
           }}>
           <motion.text
             x="212"
-            y="440"
+            y="330"
             textAnchor="middle"
             fill="white"
-            fontSize="56"
-            letterSpacing="30"
+            fontSize="34"
+            letterSpacing="20"
             fontFamily="Inter, sans-serif"
+            className="font-medium"
             initial={{ opacity: 0, y: 0 }}
-            animate={{ opacity: 1, y: -40 }}
-            transition={{ delay: 2, duration: 1.4, ease: 'linear' }}>
+            animate={{ opacity: 1, y: -36 }}
+            transition={{ delay: 1, duration: 1.4, ease: 'linear' }}>
             ELEVATE
           </motion.text>
         </motion.g>
@@ -148,25 +149,88 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
 }
 
 export default function App() {
+  const videoRef = useRef<HTMLVideoElement | null>(null)
   const [replayKey, setReplayKey] = useState(0)
+  const [isPlaying, setIsPlaying] = useState(true)
 
   const handleReplay = () => {
     setReplayKey((prev) => prev + 1)
+    handleRestart()
+  }
+
+  const handlePlayPause = () => {
+    const video = videoRef.current
+    if (!video) return
+
+    if (isPlaying) {
+      video.pause()
+    } else {
+      video.play()
+    }
+
+    setIsPlaying(!isPlaying)
+  }
+
+  const handleRestart = () => {
+    const video = videoRef.current
+    if (!video) return
+
+    video.pause()
+    video.currentTime = 0
+
+    requestAnimationFrame(() => {
+      video.play()
+    })
   }
 
   return (
     <div className="min-h-screen w-full bg-black flex flex-col items-center justify-center p-4 overflow-hidden font-sans">
-      <div className="relative border border-neutral-900 bg-black rounded-xl p-8 shadow-2xl">
-        <ElevateLogo replayKey={replayKey} />
+      <div className="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
+        <div
+          className="relative border border-neutral-900 bg-black rounded-xl p-8 shadow-2xl cursor-pointer"
+          onClick={handleReplay}>
+          <ElevateLogo replayKey={replayKey} />
 
-        {/* Replay Controls */}
-        <div className="absolute top-4 right-4 group z-10">
-          <button
-            onClick={handleReplay}
-            className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
-            title="Replay Animation">
-            <RefreshCcw size={18} />
-          </button>
+          {/* Replay Controls */}
+          <div className="absolute top-4 right-4 group z-10">
+            <button
+              onClick={handleReplay}
+              className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
+              title="Replay Animation">
+              <RefreshCcw size={18} />
+            </button>
+          </div>
+        </div>
+        <div
+          className="relative border border-neutral-900 bg-black rounded-xl p-8 shadow-2xl cursor-pointer"
+          onClick={handlePlayPause}>
+          {/* Video Element */}
+          <video
+            ref={videoRef}
+            src="/assets/videos/example.mp4"
+            className="rounded-lg w-full"
+            loop
+            autoPlay
+            muted
+            playsInline
+          />
+          <div className="absolute top-4 right-4 group z-10 flex items-center space-x-2">
+            <button
+              onClick={handlePlayPause}
+              className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
+              title={isPlaying ? 'Pause Animation' : 'Play Animation'}>
+              {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+            </button>
+            <button
+              onClick={() => {
+                handleRestart()
+                handleReplay()
+              }}
+              className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
+              title="Replay Animation">
+              <RefreshCcw size={18} />
+            </button>
+          </div>
         </div>
       </div>
     </div>
