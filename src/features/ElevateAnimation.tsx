@@ -9,8 +9,8 @@ const ElevateAnimation = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const replayIntervalRef = useRef<number | null>(null)
 
-  const [animationKey, setAnimationKey] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(true)
+  const [animationKey, setAnimationKey] = useState<number>(0)
+  const [isPlaying, setIsPlaying] = useState<boolean>(true)
 
   // Trigger animation refresh
   const handleTriggerAnimation = () => {
