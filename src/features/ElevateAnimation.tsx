@@ -73,6 +73,7 @@ const ElevateAnimation = () => {
       }
     }
   }, [])
+
   return (
     <div className="grid md:grid-cols-2 sm::grid-cols-1 gap-4 max-w-4xl mx-auto">
       <div className="relative border border-neutral-900 bg-black rounded-xl p-8 shadow-2xl cursor-pointer">

@@ -1,21 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { X } from 'lucide-react'
+import { Loader, X } from 'lucide-react'
 import { backdropVariants, modalVariants } from '../variants'
 
 type VideoModalProps = {
   isOpen: boolean
   onClose: () => void
-  videoSrc: string
   title?: string
+  videoSrc: string
 }
 
 export const VideoModal: React.FC<VideoModalProps> = ({
   isOpen,
   onClose,
-  videoSrc,
-  title = 'Video player'
+  title = 'Video player',
+  videoSrc
 }) => {
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     if (!isOpen) return
 
@@ -58,22 +60,16 @@ export const VideoModal: React.FC<VideoModalProps> = ({
             </div>
 
             <div className="relative w-full overflow-hidden rounded-xl bg-black aspect-video">
-              {videoSrc.endsWith('.mp4') ? (
-                <video
-                  src={videoSrc}
-                  controls
-                  autoPlay
-                  className="h-full w-full object-contain bg-black"
-                />
-              ) : (
-                <iframe
-                  src={videoSrc}
-                  title={title}
-                  className="h-full w-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+              {loading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Loader className="text-white" />
+                </div>
               )}
+              <iframe
+                src={videoSrc}
+                className="w-full h-full"
+                onLoad={() => setLoading(false)}
+              />
             </div>
           </motion.div>
         </motion.div>

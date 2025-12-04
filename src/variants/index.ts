@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { MotionProps, Variants } from 'framer-motion'
+import type { MotionProps, Transition, Variants } from 'framer-motion'
 
 interface Anim extends MotionProps {
   initial: Record<string, any>
@@ -10,13 +10,13 @@ interface Anim extends MotionProps {
 export const starGlowVariants: Variants = {
   initial: {
     fillOpacity: 0,
-    opacity: 1,
+    opacity: 0,
     scale: 0,
     y: 0
   },
   animate: {
     opacity: [0.4, 0],
-    fillOpacity: [0, 1, 1, 1, 0],
+    fillOpacity: [0, 1, 0],
 
     scale: [0.8, 1],
     y: -40,
@@ -34,13 +34,13 @@ export const starVariants: Variants = {
     opacity: 1,
     scale: 0.2,
     rotate: 0,
-    x: -70,
-    y: -15
+    x: -66,
+    y: -22
   },
   animate: {
     x: [-70, -55, 0, 0],
     y: [-20, -19.8, 16, -28],
-    rotate: [0, 60, 180, 180],
+    rotate: [-20, 60, 180, 180],
     opacity: [1, 1, 1, 0],
     scale: [0.2, 0.3, 0.7, 0.8],
 
@@ -50,8 +50,8 @@ export const starVariants: Variants = {
       ease: 'linear',
       times: [0.1, 0.2, 0.4, 0.8],
       opacity: {
-        duration: 4, // fade time
-        delay: 0.3 // delay AFTER main animation finishes
+        duration: 4,
+        delay: 0.3
       }
     }
   }
@@ -63,28 +63,49 @@ export const bowlMaskAnim: Anim = {
   transition: { duration: 0.4, ease: 'easeInOut', delay: 0.2 }
 }
 
-export const fillMaskAnim: Anim = {
-  initial: { x: -500, rotate: 60 },
-  animate: { x: 0, rotate: 30 },
-  transition: { duration: 2.4, ease: 'easeInOut', delay: 0.3 }
-}
-
-export const wrapperAnim: Anim = {
+export const bowlRiseVariants: Anim = {
   initial: { y: 0 },
-  animate: { y: -60 },
-  transition: { delay: 1.6, duration: 1.8, ease: 'linear' }
+  animate: { y: -120 },
+  transition: { delay: 1, duration: 1.2, ease: 'linear' }
 }
 
-export const outlineAnim: Anim = {
-  initial: { pathLength: 1.2 },
-  animate: { opacity: 1 },
-  transition: { duration: 10 }
+export const fadeOutVariants: Anim = {
+  initial: { opacity: 1 },
+  animate: { opacity: 0 },
+  transition: { duration: 1, delay: 3 }
 }
 
-export const fillAnim: Anim = {
-  initial: { opacity: 0.8 },
-  animate: { opacity: 1 },
-  transition: { delay: 1, duration: 1, ease: 'easeInOut' }
+export const fillMaskVariants: Anim = {
+  initial: { x: -500, rotate: 0 },
+  animate: { x: 0, rotate: -40 },
+  transition: { duration: 2, ease: 'easeOut', delay: 0.2 }
+}
+
+export const textGroupTransition: Transition = {
+  y: { delay: 2, duration: 1.4, ease: 'linear' },
+  opacity: { delay: 3.3, duration: 1.2, ease: 'linear' }
+}
+
+export const textTransition: Transition = {
+  delay: 1.4,
+  duration: 0.8,
+  ease: 'linear'
+}
+
+export const textGroupVariants: Variants = {
+  initial: { y: 0, opacity: 1 },
+  animate: {
+    y: 0,
+    opacity: 0
+  }
+}
+
+export const textVariants: Variants = {
+  initial: { y: 0, opacity: 1 },
+  animate: {
+    y: 0,
+    opacity: 0
+  }
 }
 
 export const backdropVariants: Variants = {
