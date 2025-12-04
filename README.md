@@ -31,7 +31,7 @@ The animation runs instantly on page load and follows all required constraints.
 
 ### 1. Prerequisites
 
-- Node.js: v18+
+- Node.js: v20.19+ or 22.12+
 - Package manager: npm / yarn / pnpm
 
 ```sh
