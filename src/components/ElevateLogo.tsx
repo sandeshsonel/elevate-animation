@@ -38,7 +38,7 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
         ----------------------------------------------------------- */}
         <motion.circle
           cx="200"
-          cy="158"
+          cy="172"
           r="40"
           fill="url(#star-glow)"
           initial="initial"
