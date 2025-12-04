@@ -18,7 +18,7 @@ export const starGlowVariants: Variants = {
     opacity: [0.2],
     fillOpacity: [0, 1, 1, 0],
     scale: [0.8, 1],
-    y: [0, -50],
+    y: [0, -58],
 
     transition: {
       ease: 'linear',
@@ -38,7 +38,7 @@ export const starVariants: Variants = {
   },
   animate: {
     x: [-70, -55, 0, 0],
-    y: [-20, -19.8, 16, -28],
+    y: [-20, -19.8, 16, -38],
     rotate: [-20, 60, 180, 180],
     opacity: [1, 1, 1, 0],
     scale: [0.2, 0.4, 0.7, 0.8],
@@ -68,8 +68,8 @@ export const bowlMaskAnim: Anim = {
 
 export const bowlRiseVariants: Anim = {
   initial: { y: 0 },
-  animate: { y: -120 },
-  transition: { delay: 1, duration: 1.2, ease: 'linear' }
+  animate: { y: -125 },
+  transition: { delay: 1.2, duration: 1, ease: 'linear' }
 }
 
 export const fadeOutVariants: Anim = {
@@ -80,8 +80,12 @@ export const fadeOutVariants: Anim = {
 
 export const fillMaskVariants: Anim = {
   initial: { x: -500, rotate: 0 },
-  animate: { x: 0, rotate: -40 },
-  transition: { duration: 2, ease: 'easeOut', delay: 0.2 }
+  animate: { x: 0, rotate: -60 },
+  transition: {
+    duration: 2.6,
+    ease: ['easeOut', 'linear', 'easeInOut'],
+    delay: 0.2
+  }
 }
 
 export const textGroupTransition: Transition = {
