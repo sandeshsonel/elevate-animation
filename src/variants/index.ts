@@ -86,3 +86,28 @@ export const fillAnim: Anim = {
   animate: { opacity: 1 },
   transition: { delay: 1, duration: 1, ease: 'easeInOut' }
 }
+
+export const backdropVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 }
+}
+
+export const modalVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.9, y: 20 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 220,
+      damping: 20
+    }
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.9,
+    y: 20,
+    transition: { duration: 0.15 }
+  }
+}

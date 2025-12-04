@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { bowlMaskAnim, starGlowVariants, starVariants } from './variants/index.'
-import { Pause, Play, RefreshCcw } from 'lucide-react'
+import { Github, Pause, Play, RefreshCcw } from 'lucide-react'
 
+import { isExpired } from './utils'
 import { usePageVisible } from './hooks/usePageVisible'
+import { GITHUB_URL, HOW_ITS_WORK_URL } from './config'
+import { bowlMaskAnim, starGlowVariants, starVariants } from './variants'
+
+import { VideoModal } from './components/VideoModal'
 
 interface PropTypes {
   replayKey: number
@@ -155,6 +159,7 @@ export default function App() {
 
   const [animationKey, setAnimationKey] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
+  const [isOpenAnimInfoModal, setIsOpenAnimInfoModal] = useState(false)
 
   // Trigger animation refresh
   const handleTriggerAnimation = () => {
@@ -202,6 +207,14 @@ export default function App() {
     }, 4500)
   }
 
+  const handleToggleInfoModal = () => {
+    setIsOpenAnimInfoModal(!isOpenAnimInfoModal)
+  }
+
+  const handleNavigate = () => {
+    window.open(GITHUB_URL, '_blank')
+  }
+
   // Restart loop when tab becomes visible
   usePageVisible(handleStartReplayLoop)
 
@@ -219,53 +232,81 @@ export default function App() {
   }, [])
 
   return (
-    <div className="min-h-screen w-full bg-black flex flex-col items-center justify-center p-4 overflow-hidden font-sans">
-      <div className="grid md:grid-cols-2 sm::grid-cols-1 gap-4 max-w-4xl mx-auto">
-        <div className="relative border border-neutral-900 bg-black rounded-xl p-8 shadow-2xl cursor-pointer">
-          <ElevateLogo replayKey={animationKey} />
-
-          {/* Replay Controls */}
-          <div className="absolute top-3 left-0 px-4 group z-10 flex justify-between items-center w-full">
-            <span className="text-white text-sm">Animation</span>
+    <>
+      <div className="relative min-h-screen w-full flex flex-col items-center justify-center bg-black p-4 overflow-hidden ">
+        {!isExpired() && (
+          <div className="absolute top-0 right-0 flex items-center space-x-4 mx-6 my-4">
             <button
-              onClick={handleStartReplayLoop}
-              className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
-              title="Replay Animation">
-              <RefreshCcw size={18} />
+              className="text-white cursor-pointer"
+              onClick={handleToggleInfoModal}>
+              How its Works ?
+            </button>
+            <button
+              title="Github"
+              onClick={handleNavigate}
+              className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none">
+              <Github size={16} />
             </button>
           </div>
-        </div>
-        <div className="relative border border-neutral-900 bg-black rounded-xl p-8 shadow-2xl cursor-pointer">
-          {/* Video Element */}
-          <video
-            ref={videoRef}
-            src="/assets/videos/example.mp4"
-            className="rounded-lg w-full"
-            loop
-            autoPlay
-            muted
-            playsInline
-            onLoadedData={handleStartReplayLoop}
-          />
-          <div className="absolute top-3 left-0 px-4 group z-10 flex justify-between items-center w-full">
-            <span className="text-white text-sm">Video Animation</span>
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={handleTogglePlayback}
-                className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
-                title={isPlaying ? 'Pause Animation' : 'Play Animation'}>
-                {isPlaying ? <Pause size={18} /> : <Play size={18} />}
-              </button>
-              <button
-                onClick={handleStartReplayLoop}
-                className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
-                title="Replay Animation">
-                <RefreshCcw size={18} />
-              </button>
+        )}
+
+        <div className="">
+          <div className="grid md:grid-cols-2 sm::grid-cols-1 gap-4 max-w-4xl mx-auto">
+            <div className="relative border border-neutral-900 bg-black rounded-xl p-8 shadow-2xl cursor-pointer">
+              <ElevateLogo replayKey={animationKey} />
+
+              {/* Replay Controls */}
+              <div className="absolute top-3 left-0 px-4 group z-10 flex justify-between items-center w-full">
+                <span className="text-white text-sm">Animation</span>
+                <button
+                  onClick={handleStartReplayLoop}
+                  className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
+                  title="Replay Animation">
+                  <RefreshCcw size={18} />
+                </button>
+              </div>
+            </div>
+            <div className="relative border border-neutral-900 bg-black rounded-xl p-8 shadow-2xl cursor-pointer">
+              {/* Video Element */}
+              <video
+                ref={videoRef}
+                src="/assets/videos/example.mp4"
+                className="rounded-lg w-full"
+                loop
+                autoPlay
+                muted
+                playsInline
+                onLoadedData={handleStartReplayLoop}
+              />
+              <div className="absolute top-3 left-0 px-4 group z-10 flex justify-between items-center w-full">
+                <span className="text-white text-sm">Video Animation</span>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={handleTogglePlayback}
+                    className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
+                    title={isPlaying ? 'Pause Animation' : 'Play Animation'}>
+                    {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+                  </button>
+                  <button
+                    onClick={handleStartReplayLoop}
+                    className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
+                    title="Replay Animation">
+                    <RefreshCcw size={18} />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      {isOpenAnimInfoModal && (
+        <VideoModal
+          title="How its Works ?"
+          isOpen={isOpenAnimInfoModal}
+          onClose={handleToggleInfoModal}
+          videoSrc={HOW_ITS_WORK_URL}
+        />
+      )}
+    </>
   )
 }
