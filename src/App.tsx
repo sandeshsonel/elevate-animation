@@ -3,6 +3,8 @@ import { motion } from 'framer-motion'
 import { bowlMaskAnim, starGlowVariants, starVariants } from './variants/index.'
 import { Pause, Play, RefreshCcw } from 'lucide-react'
 
+import { usePageVisible } from './hooks/usePageVisible'
+
 interface PropTypes {
   replayKey: number
 }
@@ -28,7 +30,7 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
         {/* Glow */}
         <motion.circle
           cx="200"
-          cy="150"
+          cy="158"
           r="40"
           fill="url(#star-glow)"
           initial="initial"
@@ -37,7 +39,7 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
         />
 
         {/* Star */}
-        <g transform="translate(200 138) scale(0.8) translate(-200 -128)">
+        <g transform="translate(200 152) scale(0.8) translate(-200 -128)">
           <motion.path
             d="M249.892 129.683C219.813 134.787 206.985 147.373 200.713 179.873C200.671 180.092 200.346 180.091 200.308 179.871C195.032 149.573 183.442 135.373 151.378 129.735C151.151 129.695 151.155 129.352 151.384 129.322C179.797 125.507 192.806 114.33 200.318 81.7959C200.365 81.5927 200.661 81.5896 200.716 81.7907C210.479 117.203 222.927 123.82 249.9 129.279C250.118 129.324 250.112 129.646 249.892 129.683Z"
             fill="white"
@@ -56,7 +58,7 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
             duration: 1,
             delay: 3 // wait until previous animations finish.
           }}
-          transform="translate(200 160) scale(0.3) translate(-200 -80)">
+          transform="translate(200 172) scale(0.3) translate(-200 -80)">
           <defs>
             <clipPath id="bowl-mask">
               <motion.rect x="0" width="400" {...bowlMaskAnim} />
@@ -79,12 +81,11 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
             </clipPath>
           </defs>
 
-          {/* NEW: Parent wrapper that moves upward at the end */}
           <motion.g
             initial={{ y: 0 }}
-            animate={{ y: -100 }} // adjust number as needed
+            animate={{ y: -120 }}
             transition={{
-              delay: 1, // starts after all previous animations finish
+              delay: 1,
               duration: 1.2,
               ease: 'linear'
             }}>
@@ -101,7 +102,6 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
             />
 
             {/* LAYER 2: Fill */}
-
             <motion.path
               d="M 0 200 Q 180 210 200 400 Q 210 220 400 200 Z"
               fill="#ffffff"
@@ -131,15 +131,15 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
           }}>
           <motion.text
             x="212"
-            y="320"
+            y="325"
             textAnchor="middle"
             fill="white"
-            fontSize="34"
+            fontSize="32.5"
             letterSpacing="20"
             fontFamily="Inter, sans-serif"
             className="font-medium"
             initial={{ opacity: 0, y: 0 }}
-            animate={{ opacity: 1, y: -28 }}
+            animate={{ opacity: 1, y: -34 }}
             transition={{ delay: 1.4, duration: 0.8, ease: 'linear' }}>
             ELEVATE
           </motion.text>
@@ -149,68 +149,86 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
   )
 }
 
-let replayInterval: number
-
 export default function App() {
   const videoRef = useRef<HTMLVideoElement | null>(null)
-  const [replayKey, setReplayKey] = useState(0)
+  const replayIntervalRef = useRef<number | null>(null)
+
+  const [animationKey, setAnimationKey] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
 
-  const handleReplay = () => {
-    clearInterval(replayInterval)
-    setReplayKey((prev) => prev + 1)
-    handleRestart()
-    handleStartLoop()
+  // Trigger animation refresh
+  const handleTriggerAnimation = () => {
+    setAnimationKey((prev) => prev + 1)
   }
 
-  const handlePlayPause = () => {
+  // Play / Pause toggle
+  const handleTogglePlayback = () => {
     const video = videoRef.current
     if (!video) return
 
-    if (isPlaying) {
-      video.pause()
-    } else {
-      video.play()
-    }
+    if (isPlaying) video.pause()
+    else video.play()
 
-    setIsPlaying(!isPlaying)
+    setIsPlaying((prev) => !prev)
   }
 
-  const handleRestart = () => {
+  // Restart the video & play immediately
+  const handleRestartVideo = () => {
+    setIsPlaying(true)
+
     const video = videoRef.current
     if (!video) return
 
     video.pause()
     video.currentTime = 0
 
-    requestAnimationFrame(() => {
-      video.play()
-    })
+    requestAnimationFrame(() => video.play())
   }
 
-  const handleStartLoop = () => {
-    replayInterval = setInterval(() => {
-      setReplayKey((prev) => prev + 1)
+  // Start the looped sequence
+  const handleStartReplayLoop = () => {
+    // Clear any previous loop
+    if (replayIntervalRef.current) {
+      clearInterval(replayIntervalRef.current)
+    }
+
+    // initial trigger
+    handleTriggerAnimation()
+    handleRestartVideo()
+
+    // set interval loop
+    replayIntervalRef.current = setInterval(() => {
+      handleTriggerAnimation()
     }, 4500)
   }
 
-  useEffect(() => {
-    handleStartLoop()
+  // Restart loop when tab becomes visible
+  usePageVisible(handleStartReplayLoop)
 
-    return () => clearInterval(replayInterval)
+  // Start once on mount
+  useEffect(() => {
+    const id = setTimeout(() => {
+      handleStartReplayLoop()
+    }, 0)
+    return () => {
+      clearTimeout(id)
+      if (replayIntervalRef.current) {
+        clearInterval(replayIntervalRef.current)
+      }
+    }
   }, [])
 
   return (
     <div className="min-h-screen w-full bg-black flex flex-col items-center justify-center p-4 overflow-hidden font-sans">
       <div className="grid md:grid-cols-2 sm::grid-cols-1 gap-4 max-w-4xl mx-auto">
         <div className="relative border border-neutral-900 bg-black rounded-xl p-8 shadow-2xl cursor-pointer">
-          <ElevateLogo replayKey={replayKey} />
+          <ElevateLogo replayKey={animationKey} />
 
           {/* Replay Controls */}
           <div className="absolute top-3 left-0 px-4 group z-10 flex justify-between items-center w-full">
             <span className="text-white text-sm">Animation</span>
             <button
-              onClick={handleReplay}
+              onClick={handleStartReplayLoop}
               className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
               title="Replay Animation">
               <RefreshCcw size={18} />
@@ -227,21 +245,19 @@ export default function App() {
             autoPlay
             muted
             playsInline
+            onLoadedData={handleStartReplayLoop}
           />
           <div className="absolute top-3 left-0 px-4 group z-10 flex justify-between items-center w-full">
             <span className="text-white text-sm">Video Animation</span>
             <div className="flex items-center space-x-2">
               <button
-                onClick={handlePlayPause}
+                onClick={handleTogglePlayback}
                 className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
                 title={isPlaying ? 'Pause Animation' : 'Play Animation'}>
                 {isPlaying ? <Pause size={18} /> : <Play size={18} />}
               </button>
               <button
-                onClick={() => {
-                  handleRestart()
-                  handleReplay()
-                }}
+                onClick={handleStartReplayLoop}
                 className="p-2 cursor-pointer rounded-full bg-neutral-900 text-neutral-500 hover:bg-neutral-800 hover:text-white transition-all duration-300 focus:outline-none"
                 title="Replay Animation">
                 <RefreshCcw size={18} />

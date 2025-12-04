@@ -19,12 +19,12 @@ export const starGlowVariants: Variants = {
     fillOpacity: [0, 1, 1, 1, 0],
 
     scale: [0.8, 1],
-    y: -22,
+    y: -40,
 
     transition: {
       ease: 'linear',
-      delay: 1,
-      duration: 1.4
+      delay: 1.2,
+      duration: 2
     }
   }
 }
@@ -39,10 +39,10 @@ export const starVariants: Variants = {
   },
   animate: {
     x: [-70, -55, 0, 0],
-    y: [-20, -19.8, 16, -20],
+    y: [-20, -19.8, 16, -28],
     rotate: [0, 60, 180, 180],
     opacity: [1, 1, 1, 0],
-    scale: [0.2, 0.3, 0.8, 0.85],
+    scale: [0.2, 0.3, 0.7, 0.8],
 
     transition: {
       duration: 2.8,
