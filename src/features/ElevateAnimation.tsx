@@ -95,7 +95,7 @@ const ElevateAnimation = () => {
         <video
           ref={videoRef}
           src="/assets/videos/example.mp4"
-          className="rounded-lg w-full"
+          className="rounded-lg w-[360px] h-[360px]"
           loop
           autoPlay
           muted
