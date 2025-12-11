@@ -5,7 +5,9 @@ import {
   fadeOutVariants,
   fillMaskVariants,
   starGlowVariants,
-  starVariants
+  starVariants,
+  textGroupVariants,
+  textVariants
 } from '../variants'
 
 interface PropTypes {
@@ -49,7 +51,7 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
         {/* ----------------------------------------------------------
               MAIN STAR SHAPE
           ----------------------------------------------------------- */}
-        <g transform="translate(200 156) scale(0.8) translate(-200 -128)">
+        <g transform="translate(200 160) scale(0.8) translate(-200 -128)">
           <motion.path
             d="M249.892 129.683C219.813 134.787 206.985 147.373 200.713 179.873C200.671 180.092 200.346 180.091 200.308 179.871C195.032 149.573 183.442 135.373 151.378 129.735C151.151 129.695 151.155 129.352 151.384 129.322C179.797 125.507 192.806 114.33 200.318 81.7959C200.365 81.5927 200.661 81.5896 200.716 81.7907C210.479 117.203 222.927 123.82 249.9 129.279C250.118 129.324 250.112 129.646 249.892 129.683Z"
             fill="white"
@@ -81,7 +83,7 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
               <clipPath id="fill-mask">
                 <motion.rect
                   x="-150"
-                  y="-100"
+                  y="-80"
                   width="600"
                   height="600"
                   {...fillMaskVariants}
@@ -120,12 +122,9 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
           ----------------------------------------------------------- */}
         <motion.g
           /* Fade-out + slight upward shift group container */
-          initial={{ y: 0, opacity: 1 }}
-          animate={{ y: 0, opacity: 0 }}
-          transition={{
-            // Group stays still vertically but fades out after text animates in
-            opacity: { delay: 3.3, duration: 1.2, ease: 'linear' }
-          }}>
+          initial="initial"
+          animate="animate"
+          variants={textGroupVariants}>
           <motion.text
             x="212"
             y="325"
@@ -135,13 +134,9 @@ const ElevateLogo: React.FC<PropTypes> = ({ replayKey }) => {
             letterSpacing="20"
             fontFamily="Inter, sans-serif"
             /* Text fades & drifts upward */
-            initial={{ opacity: 0, y: 0 }}
-            animate={{ opacity: 1, y: -32 }}
-            transition={{
-              delay: 1.5, // Text appears first
-              duration: 0.8, // Smooth quick rise
-              ease: 'linear'
-            }}>
+            initial="initial"
+            animate="animate"
+            variants={textVariants}>
             ELEVATE
           </motion.text>
         </motion.g>

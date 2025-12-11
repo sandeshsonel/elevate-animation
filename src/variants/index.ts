@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { MotionProps, Transition, Variants } from 'framer-motion'
+import type { MotionProps, Variants } from 'framer-motion'
 
 interface Anim extends MotionProps {
   initial: Record<string, any>
@@ -38,7 +38,7 @@ export const starVariants: Variants = {
   },
   animate: {
     x: [-70, -55, 0, 0],
-    y: [-20, -19.8, 16, -38],
+    y: [-20, -19.8, 16, -44],
     rotate: [-20, 80, 180, 180],
     opacity: [1, 1, 1, 0],
     scale: [0.2, 0.6, 0.8],
@@ -54,7 +54,7 @@ export const starVariants: Variants = {
       },
       scale: {
         duration: 2,
-        ease: ['linear', 'linear', 'linear', 'easeOut']
+        ease: 'linear'
       }
     }
   }
@@ -88,30 +88,28 @@ export const fillMaskVariants: Anim = {
   }
 }
 
-export const textGroupTransition: Transition = {
-  y: { delay: 2, duration: 1.4, ease: 'linear' },
-  opacity: { delay: 3.3, duration: 1.2, ease: 'linear' }
-}
-
-export const textTransition: Transition = {
-  delay: 1.4,
-  duration: 0.8,
-  ease: 'linear'
-}
-
 export const textGroupVariants: Variants = {
   initial: { y: 0, opacity: 1 },
   animate: {
     y: 0,
-    opacity: 0
+    opacity: 0,
+    transition: {
+      opacity: { delay: 3.3, duration: 1.2, ease: 'linear' }
+    }
   }
 }
 
 export const textVariants: Variants = {
-  initial: { y: 0, opacity: 1 },
+  initial: { y: 0, opacity: 0 },
   animate: {
-    y: 0,
-    opacity: 0
+    opacity: 1,
+    y: -32,
+
+    transition: {
+      delay: 1.5,
+      duration: 0.8,
+      ease: 'linear'
+    }
   }
 }
 
