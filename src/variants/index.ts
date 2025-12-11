@@ -9,21 +9,21 @@ interface Anim extends MotionProps {
 
 export const starGlowVariants: Variants = {
   initial: {
-    fillOpacity: 0,
     opacity: 0,
-    scale: 0,
-    y: 0
+    scale: 0
   },
   animate: {
-    opacity: [0.2],
-    fillOpacity: [0, 1, 1, 0],
-    scale: [0.8, 1],
-    y: [0, -58],
+    opacity: [0, 0.2, 0],
+    scale: [0, 0.8, 1],
+    y: [0, -44],
 
     transition: {
+      duration: 1.2,
+      delay: 1,
       ease: 'linear',
-      delay: 0.8,
-      duration: 2
+      opacity: {
+        duration: 5.4
+      }
     }
   }
 }
@@ -39,9 +39,9 @@ export const starVariants: Variants = {
   animate: {
     x: [-70, -55, 0, 0],
     y: [-20, -19.8, 16, -38],
-    rotate: [-20, 60, 180, 180],
+    rotate: [-20, 80, 180, 180],
     opacity: [1, 1, 1, 0],
-    scale: [0.2, 0.4, 0.7, 0.8],
+    scale: [0.2, 0.6, 0.8],
 
     transition: {
       duration: 2.8,
@@ -54,7 +54,7 @@ export const starVariants: Variants = {
       },
       scale: {
         duration: 2,
-        ease: ['linear', 'linear', 'linear', 'easeInOut']
+        ease: ['linear', 'linear', 'linear', 'easeOut']
       }
     }
   }
